@@ -141,13 +141,14 @@ def create_app(test_config=None):
             question = Question(question=new_question, answer=new_answer,
                                 difficulty=new_difficulty, category=new_category)
             question.insert()
-            return jsonify({
-                'success': True,
-                'created': question.id,
-            })
 
         except:
             abort(422)
+
+        return jsonify({
+            'success': True,
+            'created': question.id,
+        })
 
     '''
   @TODO: 
