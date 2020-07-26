@@ -65,6 +65,29 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(data['deleted'], 4)
 
+    def test_create_question_with_missing_params(self):
+        res = self.client().post('/questions', json={
+            "question": "test",
+            "answer": "test",
+            "difficulty": 2,
+            #   "category": 1,  =>  without category for example
+        })
+
+        self.assertEqual(res.status_code, 422)
+
+    def teste_create_question_with_all_params(self):
+        res = self.client().post('/questions', json={
+            "question": "test",
+            "answer": "test",
+            "difficulty": 2,
+            "category": 1
+        })
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['created'])
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
