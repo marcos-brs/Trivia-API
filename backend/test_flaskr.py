@@ -56,6 +56,15 @@ class TriviaTestCase(unittest.TestCase):
         # question 1 does not exist
         self.assertEqual(res.status_code, 422)
 
+    def test_delete_question_that_exist(self):
+        res = self.client().delete('/questions/4')
+        data = json.loads(res.data)
+
+        # question 2 exist
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted'], 4)
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
