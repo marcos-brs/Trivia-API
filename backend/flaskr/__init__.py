@@ -77,8 +77,8 @@ def create_app(test_config=None):
 
         page = int(request.args.get('page', '1'))
 
-        lower_limit = (page-1) * 10
-        upper_limit = lower_limit + 10
+        lower_limit = (page-1) * QUESTIONS_PER_PAGE
+        upper_limit = lower_limit + QUESTIONS_PER_PAGE
 
         formatted_questions = [question.format()
                                for question in questions[lower_limit:upper_limit]]
