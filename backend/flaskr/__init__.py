@@ -221,15 +221,13 @@ def create_app(test_config=None):
         try:
             body = request.get_json()
 
-            category = body.get('quiz_category', None)
+            category = body.get('quiz_category')
             previous_questions = body.get('quiz_previous_questions', [0])
 
-            if category:
-                questions = Question.query.filter_by(category=str(category)).filter(
-                    Question.id.notin_(previous_questions)).all()
+            if category['type'] == 'click':
+               questions = Question.query.filter(Question.id.notin_(previous_questions)).all()
             else:
-                questions = Question.query.filter(
-                    Question.id.notin_(previous_questions)).all()
+                questions = Question.query.filter_by(category=category['id']).filter(Question.id.notin_(previous_questions)).all()
 
             formatted_questions = [question.format() for question in questions]
 
