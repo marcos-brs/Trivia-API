@@ -35,9 +35,21 @@ class TriviaTestCase(unittest.TestCase):
         pass
 
     """
-    TODO
     Write at least one test for each test for successful operation and for expected errors.
     """
+
+    def test_get_questions(self):
+        res = self.client().get('/questions')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+        self.assertTrue(data['total_questions'])
+        self.assertTrue(data['questions'])
+        self.assertTrue(data['categories'])
+
+        self.assertTrue(data['total_questions'] <= 10)
 
 
 # Make the tests conveniently executable
