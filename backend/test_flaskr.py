@@ -51,6 +51,11 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertTrue(data['total_questions'] <= 10)
 
+    def test_delete_question_that_does_not_exist(self):
+        res = self.client().delete('/questions/1')
+        # question 1 does not exist
+        self.assertEqual(res.status_code, 422)
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
