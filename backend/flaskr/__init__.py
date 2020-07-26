@@ -52,7 +52,6 @@ def create_app(test_config=None):
         })
 
     '''
-  @TODO:
   Create an endpoint to handle GET requests for questions,
   including pagination (every 10 questions).
   This endpoint should return a list of questions,
