@@ -71,21 +71,194 @@ REVIEW_COMMENT
 This README is missing documentation of your endpoints. Below is an example for your endpoint to get all categories. Please use it as a reference for creating your documentation and resubmit your code. 
 
 Endpoints
-GET '/categories'
-GET ...
-POST ...
-DELETE ...
 
 GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-{'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"}
+- Request Body Data: None
+- Returns: An object with a 'success' and 'categories' items.
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true
+}
+
+GET '/questions'
+- Fetches all the questions in the database and returns based on current page
+- Request Arguments: page
+- Request Body Data: None
+- Returns: An object with 'success', 'total_questions', 'categories' and 'questions' items
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "questions": [
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    },
+    {
+      "answer": "Agra",
+      "category": 3,
+      "difficulty": 2,
+      "id": 15,
+      "question": "The Taj Mahal is located in which Indian city?"
+    },
+    {
+      "answer": "Escher",
+      "category": 2,
+      "difficulty": 1,
+      "id": 16,
+      "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+    }
+  ],
+  "success": true,
+  "total_questions": 10
+}
+
+DELETE '/questions/<int:question_id>'
+- Delete a question by id
+- Request Arguments: None
+- Request Body Data: None
+- Returns: An object with 'success' and 'deleted' items
+{
+    "success": true,
+    "deleted": 1
+}
+
+POST '/questions'
+- Create a new question in the database
+- Request Arguments: None
+- Request Body Data: 'question', 'answer', 'difficulty' and 'category' items
+- Returns: An object with 'success' and 'created' items
+{
+    "success": true,
+    "created": 1
+}
+
+POST '/search_questions'
+- Search for a question based on body data
+- Request Arguments: None
+- Request Body Data: 'search_term'
+- Returns: An object with 'success', 'total_questions' and 'questions' items
+{
+  "questions": [
+    {
+      "answer": "Jackson Pollock",
+      "category": 2,
+      "difficulty": 2,
+      "id": 19,
+      "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+    }
+  ],
+  "success": true,
+  "total_questions": 1
+}
+
+GET '/categories/<int:category_id>/questions'
+- Lists all the questions given an category id
+- Request Arguments: None
+- Request Body Data: None
+- Returns: An object with 'success', 'total_questions' and 'questions' items
+{
+  "questions": [
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    }
+  ],
+  "success": true,
+  "total_questions": 2
+}
+
+POST '/quiz'
+- Fetches a question in the database based on body data
+- Request Arguments: None
+- Request Body Data: 'quiz_category' and 'quiz_previous_questions' items
+- Returns: An object with 'success' and 'question' items
+{
+  "question": {
+    "answer": "test",
+    "category": 1,
+    "difficulty": 2,
+    "id": 25,
+    "question": "test"
+  },
+  "success": true
+}
 
 ```
 
