@@ -75,7 +75,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 422)
 
-    def teste_create_question_with_all_params(self):
+    def test_create_question_with_all_params(self):
         res = self.client().post('/questions', json={
             "question": "test",
             "answer": "test",
@@ -87,6 +87,29 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['created'])
+
+    def test_search_question_that_does_not_exist(self):
+        res = self.client().post('/search_questions', json={
+            'search_term': '66666666'
+        })
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['total_questions'], 0)
+
+    def test_search_question_that_exist(self):
+        res = self.client().post('/search_questions', json={
+            'search_term': 'title'
+        })
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['questions'])
+        self.assertTrue(data['total_questions'] > 0)
 
 
 # Make the tests conveniently executable
