@@ -56,14 +56,14 @@ class TriviaTestCase(unittest.TestCase):
         # question 1 does not exist
         self.assertEqual(res.status_code, 422)
 
-    # def test_delete_question_that_exist(self):
-    #     res = self.client().delete('/questions/4')
-    #     data = json.loads(res.data)
+    def test_delete_question_that_exist(self):
+        res = self.client().delete('/questions/4')
+        data = json.loads(res.data)
 
-    #     # question 2 exist
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(data['deleted'], 4)
+        # question 2 exist
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted'], 4)
 
     def test_create_question_with_missing_params(self):
         res = self.client().post('/questions', json={
@@ -154,6 +154,29 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['question'])
         self.assertEqual((data['question'])['category'], 1)
+
+    def test_play_quiz_with_previous_questions(self):
+
+        end_quiz = False
+        previous_questions = []
+
+        while end_quiz == False:
+            res = self.client().post('/quiz', json={
+                "quiz_category": {
+                    "type": "click"
+                },
+                "quiz_previous_questions": previous_questions
+            })
+
+            if res.status_code != 200:
+                end_quiz = True
+                break
+
+            data = json.loads(res.data)
+            previous_questions.append((data['question'])['id'])
+
+        # after pass for all questions
+        self.assertEqual(res.status_code, 422)
 
 
 # Make the tests conveniently executable

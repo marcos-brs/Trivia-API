@@ -231,9 +231,11 @@ def create_app(test_config=None):
             previous_questions = body.get('quiz_previous_questions', [0])
 
             if category['type'] == 'click':
-                questions = Question.query.filter(Question.id.notin_(previous_questions)).all()
+                questions = Question.query.filter(
+                    Question.id.notin_(previous_questions)).all()
             else:
-                questions = Question.query.filter_by(category=category['id']).filter(
+                print(category['id'])
+                questions = Question.query.filter_by(category=str(category['id'])).filter(
                     Question.id.notin_(previous_questions)).all()
 
             formatted_questions = [question.format() for question in questions]
