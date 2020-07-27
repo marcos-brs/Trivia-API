@@ -1,10 +1,10 @@
-import os
-import unittest
 import json
+import unittest
+
 from flask_sqlalchemy import SQLAlchemy
 
 from flaskr import create_app
-from models import setup_db, Question, Category
+from models import setup_db
 
 
 class TriviaTestCase(unittest.TestCase):
@@ -133,7 +133,7 @@ class TriviaTestCase(unittest.TestCase):
         res = self.client().post('/quiz', json={
             "quiz_category": {
                 "type": "click",
-	        }
+            }
         })
         data = json.loads(res.data)
 
@@ -146,7 +146,7 @@ class TriviaTestCase(unittest.TestCase):
             "quiz_category": {
                 "type": "science",
                 "id": "1"
-	        }
+            }
         })
         data = json.loads(res.data)
 

@@ -1,8 +1,7 @@
-import os
-from flask import Flask, request, abort, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 import random
+
+from flask import Flask, request, abort, jsonify
+from flask_cors import CORS
 
 from models import setup_db, Question, Category
 
@@ -23,6 +22,7 @@ def create_app(test_config=None):
     '''
   Use the after_request decorator to set Access-Control-Allow
   '''
+
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Headers',
@@ -35,6 +35,7 @@ def create_app(test_config=None):
   Create an endpoint to handle GET requests
   for all available categories.
   '''
+
     @app.route('/categories', methods=['GET'])
     def get_categories():
         categories = Category.query.order_by(Category.id).all()
@@ -62,6 +63,7 @@ def create_app(test_config=None):
   ten questions per page and pagination at the bottom of the screen for three pages.
   Clicking on the page numbers should update the questions.
   '''
+
     @app.route('/questions', methods=['GET'])
     def get_questions():
         questions = Question.query.order_by(Question.id).all()
@@ -76,7 +78,7 @@ def create_app(test_config=None):
 
         page = int(request.args.get('page', '1'))
 
-        lower_limit = (page-1) * QUESTIONS_PER_PAGE
+        lower_limit = (page - 1) * QUESTIONS_PER_PAGE
         upper_limit = lower_limit + QUESTIONS_PER_PAGE
 
         formatted_questions = [question.format()
@@ -96,6 +98,7 @@ def create_app(test_config=None):
   TEST: When you click the trash icon next to a question, the question will be removed.
   This removal will persist in the database and when you refresh the page.
   '''
+
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
         try:
@@ -118,6 +121,7 @@ def create_app(test_config=None):
   the form will clear and the question will appear at the end of the last page
   of the questions list in the "List" tab.
   '''
+
     @app.route('/questions', methods=['POST'])
     def create_question():
         body = request.get_json()
@@ -158,6 +162,7 @@ def create_app(test_config=None):
   only question that include that string within their question.
   Try using the word "title" to start.
   '''
+
     @app.route('/search_questions', methods=['POST'])
     def search_question():
         body = request.get_json()
@@ -188,6 +193,7 @@ def create_app(test_config=None):
   categories in the left column will cause only questions of that
   category to be shown.
   '''
+
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def list_questions_by_category(category_id):
 
@@ -215,6 +221,7 @@ def create_app(test_config=None):
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not.
   '''
+
     @app.route('/quiz', methods=['POST'])
     def play_quiz():
         try:
@@ -224,9 +231,10 @@ def create_app(test_config=None):
             previous_questions = body.get('quiz_previous_questions', [0])
 
             if category['type'] == 'click':
-               questions = Question.query.filter(Question.id.notin_(previous_questions)).all()
+                questions = Question.query.filter(Question.id.notin_(previous_questions)).all()
             else:
-                questions = Question.query.filter_by(category=category['id']).filter(Question.id.notin_(previous_questions)).all()
+                questions = Question.query.filter_by(category=category['id']).filter(
+                    Question.id.notin_(previous_questions)).all()
 
             formatted_questions = [question.format() for question in questions]
 
@@ -247,6 +255,7 @@ def create_app(test_config=None):
   Create error handlers for all expected errors
   including 404 and 422.
   '''
+
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({
